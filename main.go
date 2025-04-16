@@ -1,18 +1,20 @@
 package main
 
 import (
-	"github.com/csconfederation/demoScrape2/pkg/demoscrape2"
+	//"github.com/csconfederation/demoScrape2/pkg/demoscrape2"
+	"example.com/csgo-demo-worker/demoscrape2"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 	"net/http"
 	"os"
 	"strings"
 	"time"
+	"fmt"
 )
 
 func main() {
 	logLevel, ok := os.LookupEnv("LOG_LEVEL")
-	log.Debug(logLevel)
+	log.Debug("logLevel")
 	if !ok {
 		logLevel = "info"
 	}
@@ -36,15 +38,19 @@ func main() {
 			c.JSON(400, "empty request body")
 			return
 		}
+		fmt.Println("before ProcessDemo")
 		var game, err = demoscrape2.ProcessDemo(c.Request.Body)
-		if err != nil {
-			if strings.Contains(err.Error(), "ErrInvalidFileType") {
-				c.JSON(400, err.Error())
-				return
-			}
-			c.JSON(500, err.Error())
-			return
-		}
+		fmt.Println("out ProcessDemo")
+		fmt.Println(game)
+		fmt.Println(err)
+		// if err != nil {
+		// 	if strings.Contains(err.Error(), "ErrInvalidFileType") {
+		// 		c.JSON(400, err.Error())
+		// 		return
+		// 	}
+		// 	c.JSON(500, err.Error())
+		// 	return
+		// }
 		c.JSON(200, game)
 	})
 	api.GET("/parse-remote", func(c *gin.Context) {
