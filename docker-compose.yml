@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  csgo-demo-worker:
+    build: .
+    container_name: csgo-demo-worker
+    ports:
+      - "3002:3002"
+    environment:
+      - LOG_LEVEL=info
+      - DEMO_STATS_USER=stats
+      - DEMO_STATS_PASSWORD=parseme
+    restart: unless-stopped

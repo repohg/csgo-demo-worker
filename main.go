@@ -95,7 +95,7 @@ func main() {
 		}
 		c.JSON(200, game)
 	})
-	err := r.Run()
+	err := r.Run(":3002")
 	if err != nil {
 		println(err)
 		return
